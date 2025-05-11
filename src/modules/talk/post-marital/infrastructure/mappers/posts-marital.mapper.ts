@@ -64,6 +64,7 @@ export class PostMaritalMapper {
 
   static toResponse(model: Talk): PostMaritalResponseEntity {
     return {
+      id: model.id,
       answer_notes: model.answer_notes,
       answered_at: new Date(model.answered_at),
       answered_by: {

@@ -4,6 +4,7 @@ import {
   CreatePostMaritalProps,
   UpdatePostMaritalProps,
   FindAllPostMaritalProps,
+  DeletePostMaritalProps,
 } from '../../domain/types/post-marital.type';
 
 export interface PostMaritalRepository
@@ -11,7 +12,7 @@ export interface PostMaritalRepository
     PostMaritalResponseEntity,
     CreatePostMaritalProps,
     UpdatePostMaritalProps,
-    unknown,
+    DeletePostMaritalProps,
     FindAllPostMaritalProps,
     PostMaritalProps
   > {
@@ -22,6 +23,6 @@ export interface PostMaritalRepository
 }
 
 export interface PostMaritalProps {
-  updateProps?: { id: string };
-  deleteProps?: { id: string };
+  updateProps?: { id: number };
+  deleteProps?: { id: number };
 }

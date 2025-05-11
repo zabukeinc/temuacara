@@ -54,10 +54,7 @@ export abstract class BaseCommandHandler<CommandHandler, ResultCommand>
           command,
         )) as ResultCommand;
       case CommandActionType.DELETE:
-        return (await this.repository.baseDelete(
-          command['identifierProp'],
-          command,
-        )) as ResultCommand;
+        return (await this.repository.baseDelete(command)) as ResultCommand;
       default:
         throw new InternalServerErrorException(
           'Action type command is not set!',

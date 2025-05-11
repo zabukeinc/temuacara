@@ -1,6 +1,8 @@
 import {
+  IsArray,
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -61,4 +63,11 @@ export class PostMaritalRequestDTO implements CreatePostMaritalProps {
 
   @ApiPropertyOptional()
   answer_notes: string;
+}
+
+export class DeletePostMaritalRequestDTO {
+  @ApiProperty({ type: [Number], description: 'Array of IDs to delete' })
+  @IsArray()
+  @IsNumber({}, { each: true })
+  ids: number[];
 }

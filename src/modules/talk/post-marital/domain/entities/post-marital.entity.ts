@@ -19,6 +19,7 @@ export class PostMaritalEntity {
 }
 
 export class PostMaritalResponseEntity {
+  id: number;
   question: string;
   suggestion: string;
   asked_by: {

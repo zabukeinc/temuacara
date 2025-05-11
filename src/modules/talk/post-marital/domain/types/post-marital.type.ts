@@ -11,6 +11,7 @@ export interface AnsweredPostMarital {
 }
 
 export interface CreatePostMaritalProps {
+  id?: string;
   question: string;
   suggestion: string;
   asked_by: AskedPostMarital;
@@ -24,4 +25,13 @@ export interface FindAllPostMaritalProps {
   keyword: string;
 }
 
+export interface DeletePostMaritalProps {
+  ids: number[];
+}
+
 export type UpdatePostMaritalProps = Partial<CreatePostMaritalProps>;
+
+export interface PostMaritalRepositoryProp {
+  updateProps?: { id: number };
+  deleteProps?: { id: number };
+}

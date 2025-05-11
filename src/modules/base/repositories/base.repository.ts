@@ -10,6 +10,6 @@ export interface BaseRepository<
 > {
   baseCreate(prop: CreateProps): Promise<Entity>;
   baseUpdate(prop: WhereObject, payload: UpdateProps): Promise<Entity>;
-  baseDelete(prop: WhereObject, payload: DeleteProps): Promise<Entity>;
+  baseDelete(payload: DeleteProps): Promise<number>;
   findAll(prop: FindAllProps): Promise<PaginatedResponseDto<Entity>>;
 }

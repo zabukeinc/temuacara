@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   PostMaritalProps,
   PostMaritalRepository,
@@ -7,6 +7,7 @@ import { PaginatedResponseDto } from '@/modules/base/responses/base.paginated.re
 import { PostMaritalResponseEntity } from '../../domain/entities/post-marital.entity';
 import {
   CreatePostMaritalProps,
+  DeletePostMaritalProps,
   FindAllPostMaritalProps,
   UpdatePostMaritalProps,
 } from '../../domain/types/post-marital.type';
@@ -31,22 +32,67 @@ export class PostMaritalRepositoryMysql implements PostMaritalRepository {
     }
   }
 
-  baseUpdate(
+  async baseUpdate(
     prop: PostMaritalProps,
     payload: UpdatePostMaritalProps,
   ): Promise<PostMaritalResponseEntity> {
-    throw new Error('Method not implemented.');
-  }
-  baseDelete(
-    prop: PostMaritalProps,
-    payload: unknown,
-  ): Promise<PostMaritalResponseEntity> {
-    throw new Error('Method not implemented.');
+    try {
+      const exist = await this.prismaService.talk.findFirst({
+        where: { id: prop.updateProps.id },
+      });
+      if (!exist) {
+        throw new NotFoundException('Post marital not found');
+      }
+
+      const updated = await this.prismaService.talk.update({
+        where: { id: prop.updateProps.id },
+        data: PostMaritalMapper.toUpdate(payload),
+      });
+
+      return Promise.resolve(PostMaritalMapper.toResponse(updated));
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
-  findAll(
+  async findAll(
     prop: FindAllPostMaritalProps,
   ): Promise<PaginatedResponseDto<PostMaritalResponseEntity>> {
-    throw new Error('Method not implemented.');
+    try {
+      const query = PostMaritalMapper.toFindAll(prop);
+      const [datas, count] = await Promise.all([
+        this.prismaService.talk.findMany(query),
+        this.prismaService.talk.count({
+          where: query.where,
+        }),
+      ]);
+
+      const result = PostMaritalMapper.toPaginated(
+        datas,
+        count,
+        prop.page,
+        prop.limit,
+      );
+
+      return Promise.resolve(result);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  async baseDelete(payload: DeletePostMaritalProps): Promise<number> {
+    try {
+      const result = await this.prismaService.talk.deleteMany({
+        where: {
+          id: {
+            in: payload.ids.map((item) => Number(item)),
+          },
+        },
+      });
+
+      return Promise.resolve(result.count);
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 }

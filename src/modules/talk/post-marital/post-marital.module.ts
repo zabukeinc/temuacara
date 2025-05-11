@@ -5,6 +5,9 @@ import { PostMaritalController } from './infrastructure/controllers/post-marital
 import { POST_MARITAL_DI } from './di/post-marital.di';
 import { PostMaritalRepositoryMysql } from './infrastructure/repositories/post-marital.repository.postgresql';
 import { CreatePostMaritalCommandHandler } from './application/commands/create.post-marital.command.handler';
+import { UpdatePostMaritalCommandHandler } from './application/commands/update.post-marital.command.handler';
+import { FindAllPostMaritalQueryHandler } from './application/queries/find.all.post-marital.query.handler';
+import { DeletePostMaritalCommandHandler } from './application/commands/delete-post-marital.command.handler';
 
 // modules
 const modules = [PrismaModule, CqrsModule];
@@ -15,10 +18,14 @@ const httpController = [PostMaritalController];
 const messageController = [];
 
 // Command Handler
-const commandHandler: Provider[] = [CreatePostMaritalCommandHandler];
+const commandHandler: Provider[] = [
+  CreatePostMaritalCommandHandler,
+  UpdatePostMaritalCommandHandler,
+  DeletePostMaritalCommandHandler,
+];
 
 // Query Handler
-const queryHandler: Provider[] = [];
+const queryHandler: Provider[] = [FindAllPostMaritalQueryHandler];
 
 // Data Mapper
 
