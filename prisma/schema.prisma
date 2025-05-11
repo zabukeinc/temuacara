@@ -87,8 +87,8 @@ model Talk {
   updated_at        DateTime  @updatedAt
   answered_at       DateTime?
   deleted_at        DateTime?
-  user_id           String
-  user              User      @relation(fields: [user_id], references: [id])
+  user_id           String?
+  user              User?     @relation(fields: [user_id], references: [id])
 
   @@index([question], name: "question_index")
   @@map("talks")

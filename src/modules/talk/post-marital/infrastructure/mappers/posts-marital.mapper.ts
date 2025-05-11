@@ -20,11 +20,6 @@ export class PostMaritalMapper {
       answer_notes: props.answer_notes,
       is_bride_answerd: props.answered_by.is_bride_answerd,
       is_groom_answerd: props.answered_by.is_groom_answerd,
-      user: {
-        connect: {
-          id: 'bf7fc667-6f1e-4e47-90f8-b36c1d3a5d5e',
-        },
-      },
     };
   }
 
