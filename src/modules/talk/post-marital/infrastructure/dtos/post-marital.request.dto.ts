@@ -5,9 +5,14 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  AnsweredPostMarital,
+  AskedPostMarital,
+  CreatePostMaritalProps,
+} from '../../domain/types/post-marital.type';
 
-class AskedByDTO {
+class AskedByDTO implements AskedPostMarital {
   @ApiProperty()
   @IsBoolean()
   groom: boolean;
@@ -17,7 +22,7 @@ class AskedByDTO {
   bride: boolean;
 }
 
-class AnsweredByDTO {
+class AnsweredByDTO implements AnsweredPostMarital {
   @ApiProperty()
   @IsBoolean()
   groom: boolean;
@@ -25,9 +30,15 @@ class AnsweredByDTO {
   @ApiProperty()
   @IsBoolean()
   bride: boolean;
+
+  @ApiPropertyOptional()
+  is_groom_answerd: boolean;
+
+  @ApiPropertyOptional()
+  is_bride_answerd: boolean;
 }
 
-export class PostMaritalRequestDTO {
+export class PostMaritalRequestDTO implements CreatePostMaritalProps {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
@@ -47,4 +58,7 @@ export class PostMaritalRequestDTO {
   @ValidateNested()
   @Type(() => AnsweredByDTO)
   answered_by: AnsweredByDTO;
+
+  @ApiPropertyOptional()
+  answer_notes: string;
 }

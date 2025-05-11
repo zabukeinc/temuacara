@@ -79,9 +79,13 @@ model Talk {
   answered_by_bride Boolean
   asked_by_groom    Boolean
   asked_by_bride    Boolean
+  is_groom_answerd  Boolean?
+  is_bride_answerd  Boolean?
+  answer_notes      String?
   type              TalkEnum
   created_at        DateTime  @default(now())
   updated_at        DateTime  @updatedAt
+  answered_at       DateTime?
   deleted_at        DateTime?
   user_id           String
   user              User      @relation(fields: [user_id], references: [id])

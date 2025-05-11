@@ -6,9 +6,10 @@ export interface BaseRepository<
   UpdateProps = unknown,
   DeleteProps = unknown,
   FindAllProps = unknown,
+  WhereObject = unknown,
 > {
   baseCreate(prop: CreateProps): Promise<Entity>;
-  baseUpdate(prop: UpdateProps, payload: Entity): Promise<Entity>;
-  baseDelete(prop: DeleteProps): Promise<Entity>;
+  baseUpdate(prop: WhereObject, payload: UpdateProps): Promise<Entity>;
+  baseDelete(prop: WhereObject, payload: DeleteProps): Promise<Entity>;
   findAll(prop: FindAllProps): Promise<PaginatedResponseDto<Entity>>;
 }

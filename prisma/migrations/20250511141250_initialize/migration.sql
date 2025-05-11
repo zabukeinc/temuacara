@@ -73,9 +73,13 @@ CREATE TABLE "talks" (
     "answered_by_bride" BOOLEAN NOT NULL,
     "asked_by_groom" BOOLEAN NOT NULL,
     "asked_by_bride" BOOLEAN NOT NULL,
+    "is_groom_answerd" BOOLEAN,
+    "is_bride_answerd" BOOLEAN,
+    "answer_notes" TEXT,
     "type" "TalkEnum" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "answered_at" TIMESTAMP(3),
     "deleted_at" TIMESTAMP(3),
     "user_id" TEXT NOT NULL,
 

@@ -56,6 +56,7 @@ export abstract class BaseCommandHandler<CommandHandler, ResultCommand>
       case CommandActionType.DELETE:
         return (await this.repository.baseDelete(
           command['identifierProp'],
+          command,
         )) as ResultCommand;
       default:
         throw new InternalServerErrorException(

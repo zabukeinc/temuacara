@@ -1,18 +1,21 @@
-export interface AskedByDTO {
+export interface AskedPostMarital {
   groom: boolean;
   bride: boolean;
 }
 
-export interface AnsweredByDTO {
+export interface AnsweredPostMarital {
   groom: boolean;
+  is_groom_answerd: boolean;
   bride: boolean;
+  is_bride_answerd: boolean;
 }
 
 export interface CreatePostMaritalProps {
   question: string;
   suggestion: string;
-  asked_by: AskedByDTO;
-  answered_by: AnsweredByDTO;
+  asked_by: AskedPostMarital;
+  answered_by: AnsweredPostMarital;
+  answer_notes: string;
 }
 
 export interface FindAllPostMaritalProps {

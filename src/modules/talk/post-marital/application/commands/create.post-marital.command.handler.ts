@@ -1,7 +1,7 @@
 import { PostMaritalRequestDTO } from '../../infrastructure/dtos/post-marital.request.dto';
 import { PostMaritalRepository } from '../interfaces/post-marital.interface';
 import { Inject } from '@nestjs/common';
-import { PostMaritalEntity } from '../../domain/entities/post-marital.entity';
+import { PostMaritalResponseEntity } from '../../domain/entities/post-marital.entity';
 import {
   BaseCommandHandler,
   CommandActionType,
@@ -20,7 +20,7 @@ export class CreatePostMaritalCommand extends PostMaritalRequestDTO {
 @CommandHandler(CreatePostMaritalCommand)
 export class CreatePostMaritalCommandHandler extends BaseCommandHandler<
   CreatePostMaritalCommand,
-  PostMaritalEntity
+  PostMaritalResponseEntity
 > {
   constructor(@Inject(POST_MARITAL_DI) repository: PostMaritalRepository) {
     super(repository);

@@ -1,5 +1,5 @@
 import { BaseRepository } from '@/modules/base/repositories/base.repository';
-import { PostMaritalEntity } from '../../domain/entities/post-marital.entity';
+import { PostMaritalResponseEntity } from '../../domain/entities/post-marital.entity';
 import {
   CreatePostMaritalProps,
   UpdatePostMaritalProps,
@@ -8,12 +8,18 @@ import {
 
 export interface PostMaritalRepository
   extends BaseRepository<
-    PostMaritalEntity,
+    PostMaritalResponseEntity,
     CreatePostMaritalProps,
     UpdatePostMaritalProps,
     unknown,
-    FindAllPostMaritalProps
-  > {}
+    FindAllPostMaritalProps,
+    PostMaritalProps
+  > {
+  baseUpdate(
+    prop: PostMaritalProps,
+    payload: UpdatePostMaritalProps,
+  ): Promise<PostMaritalResponseEntity>;
+}
 
 export interface PostMaritalProps {
   updateProps?: { id: string };
