@@ -1,3 +1,5 @@
+import { TalkEnum } from '@prisma/client';
+
 export interface AskedPostMarital {
   groom: boolean;
   bride: boolean;
@@ -13,6 +15,7 @@ export interface AnsweredPostMarital {
 export interface CreatePostMaritalProps {
   id?: string;
   question: string;
+  type: TalkEnum;
   suggestion: string;
   asked_by: AskedPostMarital;
   answered_by: AnsweredPostMarital;
@@ -23,6 +26,7 @@ export interface FindAllPostMaritalProps {
   page: number;
   limit: number;
   keyword: string;
+  type: TalkEnum;
 }
 
 export interface DeletePostMaritalProps {

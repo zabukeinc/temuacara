@@ -11,13 +11,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import {
-  ApiBody,
-  ApiOperation,
-  ApiParam,
-  ApiQuery,
-  ApiResponse,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import {
   DeletePostMaritalRequestDTO,
   PostMaritalRequestDTO,
@@ -33,7 +27,7 @@ import { DeletePostMaritalCommand } from '../../application/commands/delete-post
 
 @Controller({
   version: '1',
-  path: 'post-maritals',
+  path: 'talks',
 })
 export class PostMaritalController {
   constructor(
@@ -42,7 +36,7 @@ export class PostMaritalController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create Post Marital' })
+  @ApiOperation({ summary: 'Create Talk' })
   @ApiBody({ type: PostMaritalRequestDTO })
   async create(@Body() payload: PostMaritalRequestDTO) {
     const result = await this.commandBus.execute<
@@ -54,7 +48,7 @@ export class PostMaritalController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update Post Marital' })
+  @ApiOperation({ summary: 'Update Talk' })
   @ApiBody({ type: PostMaritalRequestDTO })
   @ApiParam({ name: 'id', type: 'number' })
   async update(
@@ -70,7 +64,7 @@ export class PostMaritalController {
   }
 
   @Delete()
-  @ApiOperation({ summary: 'Delete Post Marital' })
+  @ApiOperation({ summary: 'Delete Talk' })
   @ApiBody({ type: DeletePostMaritalRequestDTO })
   async delete(@Body() payload: DeletePostMaritalRequestDTO) {
     const result = await this.commandBus.execute<
@@ -82,7 +76,7 @@ export class PostMaritalController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get Post Marital By Filter' })
+  @ApiOperation({ summary: 'Get Talk By Filter' })
   @ApiResponse({ status: 200, description: 'Success' })
   async findAll(@Query() payload: FindAllPostMaritalRequestDTO) {
     const query = new FindAllPostMaritalQuery(payload);

@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsBoolean,
+  IsIn,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -13,6 +14,7 @@ import {
   AskedPostMarital,
   CreatePostMaritalProps,
 } from '../../domain/types/post-marital.type';
+import { TalkEnum } from '@prisma/client';
 
 class AskedByDTO implements AskedPostMarital {
   @ApiProperty()
@@ -45,6 +47,10 @@ export class PostMaritalRequestDTO implements CreatePostMaritalProps {
   @IsNotEmpty()
   @IsString()
   question: string;
+
+  @ApiProperty()
+  @IsIn(Object.values(TalkEnum))
+  type: TalkEnum;
 
   @ApiProperty()
   @IsNotEmpty()

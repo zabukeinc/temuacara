@@ -15,7 +15,7 @@ export class PostMaritalMapper {
       asked_by_bride: props.asked_by.bride,
       asked_by_groom: props.asked_by.groom,
       question: props.question,
-      type: TalkEnum.POST_MARITAL,
+      type: props.type,
       suggestion: props.suggestion,
       answer_notes: props.answer_notes,
       is_bride_answerd: props.answered_by.is_bride_answerd,
@@ -30,7 +30,7 @@ export class PostMaritalMapper {
       asked_by_bride: props.asked_by.bride,
       asked_by_groom: props.asked_by.groom,
       question: props.question,
-      type: TalkEnum.POST_MARITAL,
+      type: props.type,
       suggestion: props.suggestion,
     };
   }
@@ -53,6 +53,10 @@ export class PostMaritalMapper {
       query.question = { contains: props.keyword };
     }
 
+    if (props.type) {
+      query.type = props.type;
+    }
+
     aggregate.where = query;
     return aggregate;
   }
@@ -60,6 +64,7 @@ export class PostMaritalMapper {
   static toResponse(model: Talk): PostMaritalResponseEntity {
     return {
       id: model.id,
+      type: model.type,
       answer_notes: model.answer_notes,
       answered_at: new Date(model.answered_at),
       answered_by: {

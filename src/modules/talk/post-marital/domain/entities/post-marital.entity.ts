@@ -20,6 +20,7 @@ export class PostMaritalEntity {
 
 export class PostMaritalResponseEntity {
   id: number;
+  type: TalkEnum;
   question: string;
   suggestion: string;
   asked_by: {

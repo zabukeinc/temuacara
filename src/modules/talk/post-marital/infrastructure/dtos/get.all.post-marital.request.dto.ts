@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { TalkEnum } from '@prisma/client';
+import { IsIn, IsString } from 'class-validator';
 
 export class FindAllPostMaritalRequestDTO {
   @ApiProperty()
@@ -7,6 +8,10 @@ export class FindAllPostMaritalRequestDTO {
 
   @ApiProperty()
   limit: number;
+
+  @ApiProperty({ type: 'string', enum: TalkEnum })
+  @IsIn(Object.values(TalkEnum))
+  type: TalkEnum;
 
   @ApiPropertyOptional()
   @IsString()
