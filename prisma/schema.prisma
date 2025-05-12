@@ -26,11 +26,30 @@ model Role {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  Talk       Talk[]
+  id String @id @default(cuid())
 
+  // basic information
+  name        String
+  email       String? @unique @db.Char(50)
+  phone       String? @db.Char(14)
+  password    String
+  reset_token String? @db.Text
+
+  // address
+  country     String?
+  province    String?
+  state       String?
+  city        String?
+  village     String?
+  postal_code String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  talks Talk[]
+
+  @@index([email], name: "email_index")
   @@map("users")
 }
 

@@ -7,7 +7,6 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Put,
   Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -69,7 +68,7 @@ export class PostMaritalController {
   async delete(@Body() payload: DeletePostMaritalRequestDTO) {
     const result = await this.commandBus.execute<
       DeletePostMaritalCommand,
-      PostMaritalResponseEntity[]
+      number
     >(new DeletePostMaritalCommand(payload));
 
     return new BaseResponse<typeof result>(result);
