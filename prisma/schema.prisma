@@ -112,3 +112,22 @@ model Talk {
   @@index([question], name: "question_index")
   @@map("talks")
 }
+
+model Checklist {
+  id                   Int       @id @default(autoincrement())
+  checklist            String
+  category             String
+  suggestion           String
+  responsibility_groom Boolean
+  responsibility_bride Boolean
+  status_groom         Boolean
+  status_bride         Boolean
+  notes                String?
+  created_at           DateTime  @default(now())
+  updated_at           DateTime  @updatedAt
+  deleted_at           DateTime?
+  completed_at         DateTime?
+
+  @@index([checklist, category], name: "checklist_category_index")
+  @@map("checklists")
+}
