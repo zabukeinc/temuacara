@@ -1,15 +1,24 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { $Enums } from '@prisma/client';
-import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { FindAllInvitationProps } from '../../domain/types/invitation.type';
+import { Type } from 'class-transformer';
 
 export class FindAllInvitationRequestDTO implements FindAllInvitationProps {
-  @ApiProperty()
+  @ApiProperty({ description: 'Page number', minimum: 1, default: 1 })
+  @Type(() => Number)
   @IsNumber()
+  @Min(1)
   page: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Number of items per page',
+    minimum: 1,
+    default: 25,
+  })
+  @Type(() => Number)
   @IsNumber()
+  @Min(1)
   limit: number;
 
   @ApiPropertyOptional({
