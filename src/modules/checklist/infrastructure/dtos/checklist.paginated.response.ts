@@ -1,6 +1,6 @@
 import { PaginatedResponseDto } from '@/modules/base/responses/base.paginated.response';
-import { ChecklistResponseEntity } from '../../domain/entities/checklist.entity';
+import { ChecklistEntity } from '../../domain/entities/checklist.entity';
 
-export class ChecklistPaginatedResponse extends PaginatedResponseDto<ChecklistResponseEntity> {
-  data: readonly ChecklistResponseEntity[];
+export class ChecklistPaginatedResponse extends PaginatedResponseDto<ChecklistEntity> {
+  data: readonly ChecklistEntity[];
 }

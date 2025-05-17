@@ -4,7 +4,6 @@ import {
   ChecklistRepository,
 } from '../../application/interfaces/checklist.interface';
 import { PaginatedResponseDto } from '@/modules/base/responses/base.paginated.response';
-import { ChecklistResponseEntity } from '../../domain/entities/checklist.entity';
 import {
   CreateChecklistProps,
   DeleteChecklistProps,
@@ -13,20 +12,19 @@ import {
 } from '../../domain/types/checklist.type';
 import { PrismaService } from '@/modules/prisma/prisma.service';
 import { ChecklistMapper } from '../mappers/checklist.mapper';
+import { ChecklistEntity } from '../../domain/entities/checklist.entity';
 
 @Injectable()
 export class ChecklistRepositoryMysql implements ChecklistRepository {
   constructor(protected readonly prismaService: PrismaService) {}
 
-  async baseCreate(
-    prop: CreateChecklistProps,
-  ): Promise<ChecklistResponseEntity> {
+  async baseCreate(prop: CreateChecklistProps): Promise<ChecklistEntity> {
     try {
       const result = await this.prismaService.checklist.create({
         data: ChecklistMapper.toCreate(prop),
       });
 
-      return Promise.resolve(ChecklistMapper.toResponse(result));
+      return Promise.resolve(ChecklistMapper.toDomain(result));
     } catch (err) {
       return Promise.reject(err);
     }
@@ -35,7 +33,7 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
   async baseUpdate(
     prop: ChecklistProps,
     payload: UpdateChecklistProps,
-  ): Promise<ChecklistResponseEntity> {
+  ): Promise<ChecklistEntity> {
     try {
       const exist = await this.prismaService.checklist.findFirst({
         where: { id: prop.updateProps.id },
@@ -49,7 +47,7 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
         data: ChecklistMapper.toUpdate(payload),
       });
 
-      return Promise.resolve(ChecklistMapper.toResponse(updated));
+      return Promise.resolve(ChecklistMapper.toDomain(updated));
     } catch (err) {
       return Promise.reject(err);
     }
@@ -57,7 +55,7 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
 
   async findAll(
     prop: FindAllChecklistProps,
-  ): Promise<PaginatedResponseDto<ChecklistResponseEntity>> {
+  ): Promise<PaginatedResponseDto<ChecklistEntity>> {
     try {
       const query = ChecklistMapper.toFindAll(prop);
       const [datas, count] = await Promise.all([
@@ -85,7 +83,7 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
       const result = await this.prismaService.checklist.deleteMany({
         where: {
           id: {
-            in: payload.ids.map((item) => Number(item)),
+            in: payload.ids,
           },
         },
       });

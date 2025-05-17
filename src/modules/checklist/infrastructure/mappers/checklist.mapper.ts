@@ -1,42 +1,40 @@
-import { Prisma, Checklist } from '@prisma/client';
 import {
-  ChecklistCategoryEnum,
-  ChecklistSuggestionEnum,
+  Prisma,
+  Checklist,
+  WeddingRoleType,
+  SuggestionType,
+  ChecklistType,
+} from '@prisma/client';
+import {
   CreateChecklistProps,
   FindAllChecklistProps,
   UpdateChecklistProps,
 } from '../../domain/types/checklist.type';
 import { ChecklistPaginatedResponse } from '../dtos/checklist.paginated.response';
-import { ChecklistResponseEntity } from '../../domain/entities/checklist.entity';
+import { ChecklistEntity } from '../../domain/entities/checklist.entity';
 
 export class ChecklistMapper {
   static toCreate(props: CreateChecklistProps): Prisma.ChecklistCreateInput {
     return {
-      category: props.category,
       checklist: props.checklist,
-      responsibility_bride: props.responsibility.bride,
-      responsibility_groom: props.responsibility.groom,
-      status_bride: props.status.bride,
-      status_groom: props.status.groom,
       suggestion: props.suggestion,
+      type: props.type,
+      responsibility: props.responsibility,
+      status: props.status,
       notes: props.notes,
-      completed_at: undefined,
+      assigned_to: props.assigned_to,
     };
   }
 
   static toUpdate(props: UpdateChecklistProps): Prisma.ChecklistUpdateInput {
-    return {
-      category: props.category,
-      checklist: props.checklist,
-      responsibility_bride: props.responsibility.bride,
-      responsibility_groom: props.responsibility.groom,
-      status_bride: props.status.bride,
-      status_groom: props.status.groom,
-      suggestion: props.suggestion,
-      notes: props.notes,
-      completed_at:
-        props.status.bride || props.status.groom ? new Date() : undefined,
-    };
+    const isCompleted =
+      props.status &&
+      props.responsibility &&
+      JSON.stringify(props.status) === JSON.stringify(props.responsibility)
+        ? new Date()
+        : undefined;
+
+    return { ...props, completed_at: isCompleted };
   }
 
   static toFindAll(props: FindAllChecklistProps): Prisma.ChecklistFindManyArgs {
@@ -53,37 +51,37 @@ export class ChecklistMapper {
 
     const query: Prisma.ChecklistWhereInput = {};
 
-    if (props.keyword) {
-      query.checklist = { contains: props.keyword };
+    if (props.responsibility) {
+      query.responsibility = {
+        hasSome: [props.responsibility as WeddingRoleType],
+      };
     }
 
-    if (props.category) {
-      query.category = props.category;
+    if (props.search) {
+      query.checklist = { contains: props.search, mode: 'insensitive' };
+    }
+
+    if (props.suggestion) {
+      query.suggestion = {
+        in: [props.suggestion as SuggestionType],
+      };
+    }
+
+    if (props.type) {
+      query.type = {
+        in: [props.type as ChecklistType],
+      };
     }
 
     aggregate.where = query;
     return aggregate;
   }
 
-  static toResponse(model: Checklist): ChecklistResponseEntity {
-    return {
-      id: model.id,
-      category: model.category as ChecklistCategoryEnum,
-      checklist: model.checklist,
-      responsibility: {
-        bride: model.responsibility_bride,
-        groom: model.responsibility_groom,
-      },
-      status: {
-        bride: model.status_bride,
-        groom: model.status_groom,
-      },
-      suggestion: model.suggestion as ChecklistSuggestionEnum,
-      completed_at: model.completed_at,
-      notes: model.notes,
-      created_at: model.created_at,
-      updated_at: model.updated_at,
-    };
+  static toDomain(model: Checklist): ChecklistEntity {
+    const entity = new ChecklistEntity();
+    Object.assign(entity, { ...model });
+
+    return entity;
   }
 
   static toPaginated(
@@ -93,7 +91,7 @@ export class ChecklistMapper {
     limit: number,
   ): ChecklistPaginatedResponse {
     return {
-      data: models.map((model) => this.toResponse(model)),
+      data: models.map((model) => this.toDomain(model)),
       count,
       limit: Number(limit) || 25,
       page: Number(page) || 1,

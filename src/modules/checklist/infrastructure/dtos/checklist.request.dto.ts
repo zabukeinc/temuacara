@@ -1,78 +1,80 @@
 import {
   IsArray,
-  IsBoolean,
-  IsIn,
+  IsEnum,
   IsNotEmpty,
-  IsNumber,
+  IsOptional,
   IsString,
-  ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  ChecklistCategoryEnum,
-  ChecklistResponsibilityProps,
-  ChecklistSuggestionEnum,
-  CreateChecklistProps,
-} from '../../domain/types/checklist.type';
-
-export class ChecklistResponsibilityRequestDTO
-  implements ChecklistResponsibilityProps
-{
-  @ApiProperty({ description: 'Indicates if the groom is responsible' })
-  @IsBoolean()
-  groom: boolean;
-
-  @ApiProperty({ description: 'Indicates if the groom is responsible' })
-  @IsBoolean()
-  bride: boolean;
-}
+import { CreateChecklistProps } from '../../domain/types/checklist.type';
+import { $Enums } from '@prisma/client';
 
 export class ChecklistRequestDTO implements CreateChecklistProps {
-  @ApiProperty({ description: 'The checklist name' })
+  id: string;
+  @ApiProperty({ type: String, description: 'Checklist' })
   @IsString()
   @IsNotEmpty()
   checklist: string;
 
   @ApiProperty({
-    enum: ChecklistCategoryEnum,
-    description: 'The category of the checklist',
+    type: String,
+    description: 'Type',
+    enum: $Enums.ChecklistType,
   })
-  @IsIn(Object.values(ChecklistCategoryEnum))
-  category: ChecklistCategoryEnum;
+  @IsEnum($Enums.ChecklistType)
+  type: $Enums.ChecklistType;
 
   @ApiProperty({
-    enum: ChecklistSuggestionEnum,
-    description: 'The suggestion for the checklist',
-  })
-  @IsIn(Object.values(ChecklistSuggestionEnum))
-  suggestion: ChecklistSuggestionEnum;
-
-  @ApiProperty({ description: 'Responsibility details for the checklist' })
-  @ValidateNested()
-  @Type(() => ChecklistResponsibilityRequestDTO)
-  responsibility: ChecklistResponsibilityRequestDTO;
-
-  @ApiProperty({ description: 'Status details for the checklist' })
-  @ValidateNested()
-  @Type(() => ChecklistResponsibilityRequestDTO)
-  status: ChecklistResponsibilityRequestDTO;
-
-  @ApiPropertyOptional({ description: 'Optional notes for the checklist' })
-  @IsString()
-  notes?: string;
-
-  @ApiPropertyOptional({
-    description: 'Completion date of the checklist',
     type: String,
+    description: 'Suggestion',
+    enum: $Enums.SuggestionType,
   })
+  @IsEnum($Enums.SuggestionType)
+  suggestion: $Enums.SuggestionType;
+
+  @ApiProperty({
+    type: [String],
+    description: 'Wedding Role Type',
+    enum: $Enums.WeddingRoleType,
+    isArray: true,
+  })
+  @IsArray()
+  @IsEnum($Enums.WeddingRoleType, { each: true })
+  responsibility: $Enums.WeddingRoleType[];
+
+  @ApiProperty({
+    type: [String],
+    description: 'Wedding Role Type',
+    enum: $Enums.WeddingRoleType,
+    isArray: true,
+  })
+  @IsArray()
+  @IsEnum($Enums.WeddingRoleType, { each: true })
+  status: $Enums.WeddingRoleType[];
+
+  @ApiProperty({
+    type: [String],
+    description: 'Wedding Role Type',
+    enum: $Enums.WeddingRoleType,
+    isArray: true,
+  })
+  @IsArray()
+  @IsEnum($Enums.WeddingRoleType, { each: true })
+  assigned_to: $Enums.WeddingRoleType[];
+
+  @ApiPropertyOptional({ type: String, description: 'Notes', nullable: true })
+  @IsOptional()
   @IsString()
-  completed_at?: string;
+  notes: string;
+
+  completed_at: Date;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
 }
 
 export class DeleteChecklistRequestDTO {
-  @ApiProperty({ type: [Number], description: 'Array of IDs to delete' })
+  @ApiProperty({ type: [String], description: 'Array of IDs to delete' })
   @IsArray()
-  @IsNumber({}, { each: true })
-  ids: number[];
+  ids: string[];
 }

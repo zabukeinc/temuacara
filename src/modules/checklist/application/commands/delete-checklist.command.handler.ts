@@ -5,9 +5,9 @@ import {
 import { Inject } from '@nestjs/common';
 import { CommandHandler } from '@nestjs/cqrs';
 import { CHECKLIST_DI } from '../../di/checklist.di';
-import { ChecklistResponseEntity } from '../../domain/entities/checklist.entity';
 import { DeleteChecklistRequestDTO } from '../../infrastructure/dtos/checklist.request.dto';
 import { ChecklistRepository } from '../interfaces/checklist.interface';
+import { ChecklistEntity } from '../../domain/entities/checklist.entity';
 
 export class DeleteChecklistCommand {
   constructor(protected readonly payload: DeleteChecklistRequestDTO) {
@@ -18,7 +18,7 @@ export class DeleteChecklistCommand {
 @CommandHandler(DeleteChecklistCommand)
 export class DeleteChecklistCommandHandler extends BaseCommandHandler<
   DeleteChecklistCommand,
-  ChecklistResponseEntity[]
+  ChecklistEntity[]
 > {
   constructor(
     @Inject(CHECKLIST_DI)

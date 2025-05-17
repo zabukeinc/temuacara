@@ -1,19 +1,28 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsIn, IsString } from 'class-validator';
-import { ChecklistCategoryEnum } from '../../domain/types/checklist.type';
+import { FindAllChecklistProps } from '../../domain/types/checklist.type';
 
-export class FindAllChecklistRequestDTO {
+export class FindAllChecklistRequestDTO implements FindAllChecklistProps {
   @ApiProperty()
   page: number;
 
   @ApiProperty()
   limit: number;
 
-  @ApiProperty({ type: 'string', enum: ChecklistCategoryEnum })
-  @IsIn(Object.values(ChecklistCategoryEnum))
-  category: ChecklistCategoryEnum;
+  @ApiPropertyOptional()
+  type: string;
 
   @ApiPropertyOptional()
-  @IsString()
-  keyword: string;
+  suggestion: string;
+
+  @ApiPropertyOptional()
+  responsibility: string;
+
+  @ApiPropertyOptional()
+  status: string;
+
+  @ApiPropertyOptional()
+  assigned_to: string;
+
+  @ApiPropertyOptional()
+  search: string;
 }

@@ -5,22 +5,22 @@ import {
 } from '@/modules/base/commands/base.command.handler';
 import { CommandHandler } from '@nestjs/cqrs';
 import { CHECKLIST_DI } from '../../di/checklist.di';
-import { ChecklistResponseEntity } from '../../domain/entities/checklist.entity';
 import { ChecklistRequestDTO } from '../../infrastructure/dtos/checklist.request.dto';
 import { ChecklistRepository } from '../interfaces/checklist.interface';
+import { ChecklistEntity } from '../../domain/entities/checklist.entity';
 
 export class CreateChecklistCommand extends ChecklistRequestDTO {
-  constructor(public payload: ChecklistRequestDTO) {
+  constructor(public request: ChecklistRequestDTO) {
     super();
 
-    Object.assign(this, { ...payload });
+    Object.assign(this, { ...request });
   }
 }
 
 @CommandHandler(CreateChecklistCommand)
 export class CreateChecklistCommandHandler extends BaseCommandHandler<
   CreateChecklistCommand,
-  ChecklistResponseEntity
+  ChecklistEntity
 > {
   constructor(@Inject(CHECKLIST_DI) repository: ChecklistRepository) {
     super(repository);

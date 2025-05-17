@@ -113,21 +113,45 @@ model Talk {
   @@map("talks")
 }
 
-model Checklist {
-  id                   Int       @id @default(autoincrement())
-  checklist            String
-  category             String
-  suggestion           String
-  responsibility_groom Boolean
-  responsibility_bride Boolean
-  status_groom         Boolean
-  status_bride         Boolean
-  notes                String?
-  created_at           DateTime  @default(now())
-  updated_at           DateTime  @updatedAt
-  deleted_at           DateTime?
-  completed_at         DateTime?
+// Enums
 
-  @@index([checklist, category], name: "checklist_category_index")
+enum SuggestionType {
+  MUST
+  RECOMMENDED
+  OPTIONAL
+}
+
+enum WeddingRoleType {
+  GROOM
+  BRIDE
+  GROOM_FAMILY
+  BRIDE_FAMILY
+  ALL
+}
+
+enum ChecklistType {
+  PREPARATION
+  DOCUMENT
+  HEALTH
+  HONEYMOON
+  PRE_MARITAL  @map("PRE_MARITAL_TALK")
+  POST_MARITAL @map("POST_MARITAL_TALK")
+}
+
+model Checklist {
+  id             String            @id @default(uuid()) @db.Uuid
+  checklist      String
+  type           ChecklistType
+  suggestion     SuggestionType
+  responsibility WeddingRoleType[] @default([])
+  status         WeddingRoleType[] @default([])
+  assigned_to    WeddingRoleType[] @default([])
+  notes          String?
+  completed_at   DateTime?
+  created_at     DateTime          @default(now())
+  updated_at     DateTime          @updatedAt
+  deleted_at     DateTime?
+
+  @@index([checklist])
   @@map("checklists")
 }

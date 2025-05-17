@@ -5,10 +5,10 @@ import {
 import { Inject } from '@nestjs/common';
 import { CommandHandler } from '@nestjs/cqrs';
 import { CHECKLIST_DI } from '../../di/checklist.di';
-import { ChecklistResponseEntity } from '../../domain/entities/checklist.entity';
 import { ChecklistRepositoryProp } from '../../domain/types/checklist.type';
 import { ChecklistRequestDTO } from '../../infrastructure/dtos/checklist.request.dto';
 import { ChecklistRepository } from '../interfaces/checklist.interface';
+import { ChecklistEntity } from '../../domain/entities/checklist.entity';
 
 export class UpdateChecklistCommand extends ChecklistRequestDTO {
   constructor(
@@ -23,7 +23,7 @@ export class UpdateChecklistCommand extends ChecklistRequestDTO {
 @CommandHandler(UpdateChecklistCommand)
 export class UpdateChecklistCommandHandler extends BaseCommandHandler<
   UpdateChecklistCommand,
-  ChecklistResponseEntity
+  ChecklistEntity
 > {
   constructor(@Inject(CHECKLIST_DI) repository: ChecklistRepository) {
     super(repository);

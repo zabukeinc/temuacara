@@ -5,11 +5,11 @@ import {
   FindAllChecklistProps,
   DeleteChecklistProps,
 } from '../../domain/types/checklist.type';
-import { ChecklistResponseEntity } from '../../domain/entities/checklist.entity';
+import { ChecklistEntity } from '../../domain/entities/checklist.entity';
 
 export interface ChecklistRepository
   extends BaseRepository<
-    ChecklistResponseEntity,
+    ChecklistEntity,
     CreateChecklistProps,
     UpdateChecklistProps,
     DeleteChecklistProps,
@@ -19,10 +19,10 @@ export interface ChecklistRepository
   baseUpdate(
     prop: ChecklistProps,
     payload: UpdateChecklistProps,
-  ): Promise<ChecklistResponseEntity>;
+  ): Promise<ChecklistEntity>;
 }
 
 export interface ChecklistProps {
-  updateProps?: { id: number };
-  deleteProps?: { id: number };
+  updateProps?: { id: string };
+  deleteProps?: { id: string };
 }

@@ -1,45 +1,38 @@
-export enum ChecklistCategoryEnum {
-  PREPARATION = 'PREPARATION',
-  DOCUMENT = 'DOCUMENT',
-  HEALTH = 'HEALTH',
-  HONEYMOON = 'HONEYMOON',
-}
-
-export enum ChecklistSuggestionEnum {
-  MUST = 'MUST',
-  RECOMMENDED = 'RECOMMENDED',
-  OPTIONAL = 'OPTIONAL',
-}
-
-export interface ChecklistResponsibilityProps {
-  groom: boolean;
-  bride: boolean;
-}
+import { ChecklistType, SuggestionType, WeddingRoleType } from '@prisma/client';
 
 export interface CreateChecklistProps {
+  id: string;
   checklist: string;
-  category: ChecklistCategoryEnum;
-  suggestion: ChecklistSuggestionEnum;
-  responsibility: ChecklistResponsibilityProps;
-  status: ChecklistResponsibilityProps;
-  notes?: string | null;
-  completed_at?: string | null;
+  type: ChecklistType;
+  suggestion: SuggestionType;
+  responsibility: WeddingRoleType[];
+  status: WeddingRoleType[];
+  assigned_to: WeddingRoleType[];
+  notes: string;
+  completed_at: Date;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
 }
 
 export interface FindAllChecklistProps {
   page: number;
   limit: number;
-  keyword: string;
-  category: ChecklistCategoryEnum;
+  type: string;
+  suggestion: string;
+  responsibility: string;
+  status: string;
+  assigned_to: string;
+  search: string;
 }
 
 export interface DeleteChecklistProps {
-  ids: number[];
+  ids: string[];
 }
 
 export type UpdateChecklistProps = Partial<CreateChecklistProps>;
 
 export interface ChecklistRepositoryProp {
-  updateProps?: { id: number };
-  deleteProps?: { id: number };
+  updateProps?: { id: string };
+  deleteProps?: { id: string };
 }
