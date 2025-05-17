@@ -5,9 +5,16 @@ import { PostMaritalModule } from './modules/talk/post-marital/post-marital.modu
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { ChecklistModule } from './modules/checklist/checklist.module';
+import { InvitationModule } from './modules/invitation/invitation.module';
 
 @Module({
-  imports: [AuthModule, UserModule, PostMaritalModule, ChecklistModule],
+  imports: [
+    AuthModule,
+    UserModule,
+    PostMaritalModule,
+    ChecklistModule,
+    InvitationModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

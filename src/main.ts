@@ -5,11 +5,29 @@ import {
   BadRequestException,
   HttpStatus,
   ValidationPipe,
+  VersioningType,
 } from '@nestjs/common';
 import { validationFormaterResponse } from './modules/base/helpers/error.response';
+import { json, urlencoded } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  /** Cors */
+  app.enableCors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: '*',
+    exposedHeaders: '*',
+  });
+
+  app.use(json({ limit: '100mb' }));
+  app.use(urlencoded({ limit: '100mb', extended: true }));
+
+  /** Enable versioning */
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
 
   /** Http Request Validation */
   app.useGlobalPipes(
