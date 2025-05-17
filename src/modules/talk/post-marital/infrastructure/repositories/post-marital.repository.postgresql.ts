@@ -13,6 +13,7 @@ import {
 } from '../../domain/types/post-marital.type';
 import { PrismaService } from '@/modules/prisma/prisma.service';
 import { PostMaritalMapper } from '../mappers/posts-marital.mapper';
+import { BasePaginatedResponseDTO } from '@/modules/base/responses/base.paginated.v2.response';
 
 @Injectable()
 export class PostMaritalRepositoryMysql implements PostMaritalRepository {
@@ -57,24 +58,9 @@ export class PostMaritalRepositoryMysql implements PostMaritalRepository {
 
   async findAll(
     prop: FindAllPostMaritalProps,
-  ): Promise<PaginatedResponseDto<PostMaritalResponseEntity>> {
+  ): Promise<BasePaginatedResponseDTO<PostMaritalResponseEntity>> {
     try {
-      const query = PostMaritalMapper.toFindAll(prop);
-      const [datas, count] = await Promise.all([
-        this.prismaService.talk.findMany(query),
-        this.prismaService.talk.count({
-          where: query.where,
-        }),
-      ]);
-
-      const result = PostMaritalMapper.toPaginated(
-        datas,
-        count,
-        prop.page,
-        prop.limit,
-      );
-
-      return Promise.resolve(result);
+      return;
     } catch (err) {
       return Promise.reject(err);
     }

@@ -3,7 +3,6 @@ import {
   ChecklistProps,
   ChecklistRepository,
 } from '../../application/interfaces/checklist.interface';
-import { PaginatedResponseDto } from '@/modules/base/responses/base.paginated.response';
 import {
   CreateChecklistProps,
   DeleteChecklistProps,
@@ -13,6 +12,8 @@ import {
 import { PrismaService } from '@/modules/prisma/prisma.service';
 import { ChecklistMapper } from '../mappers/checklist.mapper';
 import { ChecklistEntity } from '../../domain/entities/checklist.entity';
+import { BasePaginatedResponseDTO } from '@/modules/base/responses/base.paginated.v2.response';
+import { PaginationHelper } from '@/modules/base/responses/pagination.response.helper';
 
 @Injectable()
 export class ChecklistRepositoryMysql implements ChecklistRepository {
@@ -55,7 +56,7 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
 
   async findAll(
     prop: FindAllChecklistProps,
-  ): Promise<PaginatedResponseDto<ChecklistEntity>> {
+  ): Promise<BasePaginatedResponseDTO<ChecklistEntity>> {
     try {
       const query = ChecklistMapper.toFindAll(prop);
       const [datas, count] = await Promise.all([
@@ -65,14 +66,17 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
         }),
       ]);
 
-      const result = ChecklistMapper.toPaginated(
+      return PaginationHelper.createPaginatedResponse(
+        {
+          page: prop.page,
+          limit: prop.limit,
+          search: prop.search,
+          baseUrl: 'checklists',
+        },
         datas,
         count,
-        prop.page,
-        prop.limit,
+        (data) => ChecklistMapper.toDomain(data),
       );
-
-      return Promise.resolve(result);
     } catch (err) {
       return Promise.reject(err);
     }

@@ -34,7 +34,10 @@ export class ChecklistMapper {
         ? new Date()
         : undefined;
 
-    return { ...props, completed_at: isCompleted };
+    return {
+      ...this.toCreate(props as CreateChecklistProps),
+      completed_at: isCompleted,
+    };
   }
 
   static toFindAll(props: FindAllChecklistProps): Prisma.ChecklistFindManyArgs {

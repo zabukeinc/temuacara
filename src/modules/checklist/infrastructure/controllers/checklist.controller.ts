@@ -54,7 +54,7 @@ export class ChecklistController {
   @Patch(':id')
   @ApiOperation({ summary: 'Update checklist' })
   @ApiBody({ type: ChecklistRequestDTO })
-  @ApiParam({ name: 'id', type: 'number' })
+  @ApiParam({ name: 'id', type: 'string' })
   async update(@Param('id') id: string, @Body() payload: ChecklistRequestDTO) {
     const result = await this.commandBus.execute<
       UpdateChecklistCommand,
