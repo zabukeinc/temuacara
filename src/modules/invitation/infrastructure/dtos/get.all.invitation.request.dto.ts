@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { $Enums, Prisma } from '@prisma/client';
 import { IsEnum, IsIn, IsOptional, IsString } from 'class-validator';
 import { FindAllInvitationProps } from '../../domain/types/invitation.type';

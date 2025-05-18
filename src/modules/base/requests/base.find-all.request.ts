@@ -12,13 +12,13 @@ export interface BaseFindAllProps {
 }
 
 export class BaseFindAllRequest implements BaseFindAllProps {
-  @ApiProperty({ description: 'Page number', minimum: 1, default: 1 })
+  @ApiPropertyOptional({ description: 'Page number', minimum: 1, default: 1 })
   @Type(() => Number)
   @IsNumber()
   @Min(1)
   page: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Number of items per page',
     minimum: 1,
     default: 25,
