@@ -43,7 +43,7 @@ export class FindAllGiftRequestDTO
   @IsEnum($Enums.WeddingRoleType)
   assigned_to: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ default: 'id' })
   @IsOptional()
   @IsEnum(Prisma.GiftScalarFieldEnum)
   @IsIn(Object.values(Prisma.GiftScalarFieldEnum))

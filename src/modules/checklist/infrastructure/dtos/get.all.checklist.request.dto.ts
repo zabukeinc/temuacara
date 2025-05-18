@@ -33,7 +33,7 @@ export class FindAllChecklistRequestDTO
   @IsEnum($Enums.WeddingRoleType)
   assigned_to: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ default: 'id' })
   @IsOptional()
   @IsEnum(Prisma.ChecklistScalarFieldEnum)
   @IsIn(Object.values(Prisma.ChecklistScalarFieldEnum))

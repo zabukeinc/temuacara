@@ -55,7 +55,7 @@ export class FindAllInvitationRequestDTO
   @IsOptional()
   name: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: 'string',
     enum: Object.values(Prisma.InvitationScalarFieldEnum),
     default: 'asc',
