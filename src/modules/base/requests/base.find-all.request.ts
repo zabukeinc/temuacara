@@ -28,12 +28,14 @@ export class BaseFindAllRequest implements BaseFindAllProps {
   @Min(1)
   limit: number;
 
+  @IsOptional()
   @ApiProperty({
     type: 'string',
     default: 'id',
   })
   sort_by: string;
 
+  @IsOptional()
   @ApiPropertyOptional({
     type: 'string',
     enum: ['asc', 'desc'],
