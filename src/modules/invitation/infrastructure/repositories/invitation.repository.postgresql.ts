@@ -138,7 +138,23 @@ export class InvitationRepositoryMysql implements InvitationRepository {
     try {
       const promises = payload.map((each) => this.baseCreate(each));
 
-      return await Promise.all(promises);
+      const results = await Promise.all(promises);
+
+      return results.map((each) => InvitationMapper.toDomain(each));
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  async findOne(prop: InvitationProps): Promise<InvitationEntity> {
+    try {
+      const result = await this.prismaService.invitation.findFirst({
+        where: {
+          id: prop.findOneProps.id,
+        },
+        include: this.defaultInclude,
+      });
+      return Promise.resolve(InvitationMapper.toDomain(result));
     } catch (err) {
       return Promise.reject(err);
     }

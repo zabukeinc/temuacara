@@ -6,22 +6,15 @@ import {
   Get,
   HttpStatus,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import {
-  ApiBody,
-  ApiMovedPermanentlyResponse,
-  ApiOperation,
-  ApiParam,
-  ApiResponse,
-} from '@nestjs/swagger';
-import { CreateInvitationCommand } from '../../application/commands/create.invitation.command.handler';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { DeleteInvitationCommand } from '../../application/commands/delete-invitation.command.handler';
 import { UpdateInvitationCommand } from '../../application/commands/update.checklist.command.handler';
-import { FindAllInvitationQuery } from '../../application/queries/find.all.invitation.query';
+import { FindAllInvitationQuery } from '../../application/queries/find-all.invitation.query';
 import { InvitationEntity } from '../../domain/entities/invitation.entity';
 import { FindAllInvitationRequestDTO } from '../dtos/get.all.invitation.request.dto';
 import { InvitationPaginatedResponse } from '../dtos/invitation.paginated.response';
@@ -31,6 +24,7 @@ import {
   BulkInvitationRequestDTO,
 } from '../dtos/invitation.request.dto';
 import { BulkCreateInvitationCommand } from '../../application/commands/create-bulk.invitation.command.handler';
+import { FindOneInvitationQuery } from '../../application/queries/find-one.invitation.query';
 
 @Controller({
   version: '1',
@@ -58,7 +52,23 @@ export class InvitationController {
     );
   }
 
-  @Patch(':id')
+  @Get(':id')
+  @ApiOperation({ summary: 'Get Invitation By Id' })
+  @ApiParam({ name: 'id', type: 'string' })
+  async findOne(@Param('id') id: string) {
+    const result = await this.queryBus.execute<
+      FindOneInvitationQuery,
+      InvitationEntity
+    >(new FindOneInvitationQuery(id));
+
+    return new BaseResponse<typeof result>(
+      result,
+      'Succesfully get Invitation data',
+      HttpStatus.OK,
+    );
+  }
+
+  @Put(':id')
   @ApiOperation({ summary: 'Update Invitation' })
   @ApiBody({ type: InvitationRequestDTO })
   @ApiParam({ name: 'id', type: 'string' })

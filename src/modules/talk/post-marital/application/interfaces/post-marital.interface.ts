@@ -25,4 +25,5 @@ export interface PostMaritalRepository
 export interface PostMaritalProps {
   updateProps?: { id: number };
   deleteProps?: { id: number };
+  findOneProps?: { id: number };
 }

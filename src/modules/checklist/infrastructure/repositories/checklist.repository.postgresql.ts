@@ -106,7 +106,20 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
         data: payload.map((item) => ChecklistMapper.toCreate(item)),
       });
 
-      return Promise.resolve(result);
+      return Promise.resolve(
+        result.map((each) => ChecklistMapper.toDomain(each)),
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  async findOne(prop: ChecklistProps): Promise<ChecklistEntity> {
+    try {
+      const result = await this.prismaService.checklist.findFirst({
+        where: { id: prop.findOneProps.id },
+      });
+      return Promise.resolve(ChecklistMapper.toDomain(result));
     } catch (err) {
       return Promise.reject(err);
     }

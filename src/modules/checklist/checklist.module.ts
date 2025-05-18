@@ -9,6 +9,7 @@ import { UpdateChecklistCommandHandler } from './application/commands/update.che
 import { FindAllChecklistQueryHandler } from './application/queries/find.all.checklist.query.handler';
 import { DeleteChecklistCommandHandler } from './application/commands/delete-checklist.command.handler';
 import { CreateBulkChecklistCommandHandler } from './application/commands/create-bulk.checklist.command.handler';
+import { FindOneChecklistQueryHandler } from './application/queries/get.one.checklist.query.handler';
 
 // modules
 const modules = [PrismaModule, CqrsModule];
@@ -27,7 +28,10 @@ const commandHandler: Provider[] = [
 ];
 
 // Query Handler
-const queryHandler: Provider[] = [FindAllChecklistQueryHandler];
+const queryHandler: Provider[] = [
+  FindAllChecklistQueryHandler,
+  FindOneChecklistQueryHandler,
+];
 
 // Data Mapper
 

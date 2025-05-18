@@ -3,7 +3,6 @@ import {
   PostMaritalProps,
   PostMaritalRepository,
 } from '../../application/interfaces/post-marital.interface';
-import { PaginatedResponseDto } from '@/modules/base/responses/base.paginated.response';
 import { PostMaritalResponseEntity } from '../../domain/entities/post-marital.entity';
 import {
   CreatePostMaritalProps,
@@ -77,6 +76,20 @@ export class PostMaritalRepositoryMysql implements PostMaritalRepository {
       });
 
       return Promise.resolve(result.count);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  async findOne(prop: PostMaritalProps): Promise<PostMaritalResponseEntity> {
+    try {
+      const result = await this.prismaService.talk.findFirst({
+        where: {
+          id: prop.findOneProps.id,
+        },
+      });
+
+      return Promise.resolve(PostMaritalMapper.toResponse(result));
     } catch (err) {
       return Promise.reject(err);
     }

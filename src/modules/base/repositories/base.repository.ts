@@ -1,4 +1,3 @@
-import { PaginatedResponseDto } from '../responses/base.paginated.response';
 import { BasePaginatedResponseDTO } from '../responses/base.paginated.v2.response';
 
 export interface BaseRepository<
@@ -13,4 +12,5 @@ export interface BaseRepository<
   baseUpdate(prop: WhereObject, payload: UpdateProps): Promise<Entity>;
   baseDelete(payload: DeleteProps): Promise<number>;
   findAll(prop: FindAllProps): Promise<BasePaginatedResponseDTO<Entity>>;
+  findOne(prop: WhereObject): Promise<Entity>;
 }

@@ -26,4 +26,5 @@ export interface ChecklistRepository
 export interface ChecklistProps {
   updateProps?: { id: string };
   deleteProps?: { id: string };
+  findOneProps?: { id: string };
 }

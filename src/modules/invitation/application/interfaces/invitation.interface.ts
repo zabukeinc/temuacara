@@ -26,4 +26,5 @@ export interface InvitationRepository
 export interface InvitationProps {
   updateProps?: { id: string };
   deleteProps?: { id: string };
+  findOneProps?: { id: string };
 }

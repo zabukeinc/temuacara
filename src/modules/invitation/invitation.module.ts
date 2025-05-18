@@ -6,9 +6,10 @@ import { InvitationRepositoryMysql } from './infrastructure/repositories/invitat
 import { CreateInvitationCommandHandler } from './application/commands/create.invitation.command.handler';
 import { DeleteInvitationCommandHandler } from './application/commands/delete-invitation.command.handler';
 import { UpdateInvitationCommandHandler } from './application/commands/update.checklist.command.handler';
-import { FindAllInvitationQueryHandler } from './application/queries/find.all.invitation.query';
+import { FindAllInvitationQueryHandler } from './application/queries/find-all.invitation.query';
 import { InvitationController } from './infrastructure/controllers/invitation.controller';
 import { BulkCreateInvitationCommandHandler } from './application/commands/create-bulk.invitation.command.handler';
+import { FindOneInvitationQueryHandler } from './application/queries/find-one.invitation.query';
 
 // modules
 const modules = [PrismaModule, CqrsModule];
@@ -27,7 +28,10 @@ const commandHandler: Provider[] = [
 ];
 
 // Query Handler
-const queryHandler: Provider[] = [FindAllInvitationQueryHandler];
+const queryHandler: Provider[] = [
+  FindAllInvitationQueryHandler,
+  FindOneInvitationQueryHandler,
+];
 
 // Data Mapper
 

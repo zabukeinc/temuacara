@@ -5,13 +5,12 @@ import {
   Get,
   HttpStatus,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { CreateChecklistCommand } from '../../application/commands/create.checklist.command.handler';
 import { BaseResponse } from '@/modules/base/responses/base.response';
 import { UpdateChecklistCommand } from '../../application/commands/update.checklist.command.handler';
 import { FindAllChecklistQuery } from '../../application/queries/find.all.checklist.query.handler';
@@ -25,6 +24,7 @@ import {
 import { FindAllChecklistRequestDTO } from '../dtos/get.all.checklist.request.dto';
 import { ChecklistEntity } from '../../domain/entities/checklist.entity';
 import { CreateBulkChecklistCommand } from '../../application/commands/create-bulk.checklist.command.handler';
+import { FindOneChecklistQuery } from '../../application/queries/get.one.checklist.query.handler';
 
 @Controller({
   version: '1',
@@ -52,7 +52,23 @@ export class ChecklistController {
     );
   }
 
-  @Patch(':id')
+  @Get(':id')
+  @ApiOperation({ summary: 'Get checklist By Id' })
+  @ApiParam({ name: 'id', type: 'string' })
+  async findOne(@Param('id') id: string) {
+    const result = await this.queryBus.execute<
+      FindOneChecklistQuery,
+      ChecklistEntity
+    >(new FindOneChecklistQuery(id));
+
+    return new BaseResponse<typeof result>(
+      result,
+      'Succesfully get checklist data',
+      HttpStatus.OK,
+    );
+  }
+
+  @Put(':id')
   @ApiOperation({ summary: 'Update checklist' })
   @ApiBody({ type: ChecklistRequestDTO })
   @ApiParam({ name: 'id', type: 'string' })
