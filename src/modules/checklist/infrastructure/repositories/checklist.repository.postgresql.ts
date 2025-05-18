@@ -97,4 +97,18 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
       return Promise.reject(err);
     }
   }
+
+  async bulkCreate(
+    payload: CreateChecklistProps[],
+  ): Promise<ChecklistEntity[]> {
+    try {
+      const result = await this.prismaService.checklist.createManyAndReturn({
+        data: payload.map((item) => ChecklistMapper.toCreate(item)),
+      });
+
+      return Promise.resolve(result);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
 }

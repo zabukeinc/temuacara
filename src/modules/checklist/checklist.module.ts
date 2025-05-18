@@ -8,6 +8,7 @@ import { CreateChecklistCommandHandler } from './application/commands/create.che
 import { UpdateChecklistCommandHandler } from './application/commands/update.checklist.command.handler';
 import { FindAllChecklistQueryHandler } from './application/queries/find.all.checklist.query.handler';
 import { DeleteChecklistCommandHandler } from './application/commands/delete-checklist.command.handler';
+import { CreateBulkChecklistCommandHandler } from './application/commands/create-bulk.checklist.command.handler';
 
 // modules
 const modules = [PrismaModule, CqrsModule];
@@ -19,6 +20,7 @@ const messageController = [];
 
 // Command Handler
 const commandHandler: Provider[] = [
+  CreateBulkChecklistCommandHandler,
   CreateChecklistCommandHandler,
   UpdateChecklistCommandHandler,
   DeleteChecklistCommandHandler,

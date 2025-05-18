@@ -20,6 +20,7 @@ export interface ChecklistRepository
     prop: ChecklistProps,
     payload: UpdateChecklistProps,
   ): Promise<ChecklistEntity>;
+  bulkCreate(payload: CreateChecklistProps[]): Promise<ChecklistEntity[]>;
 }
 
 export interface ChecklistProps {

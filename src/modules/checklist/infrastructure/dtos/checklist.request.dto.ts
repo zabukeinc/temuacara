@@ -4,10 +4,12 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateChecklistProps } from '../../domain/types/checklist.type';
 import { $Enums } from '@prisma/client';
+import { Type } from 'class-transformer';
 
 export class ChecklistRequestDTO implements CreateChecklistProps {
   id: string;
@@ -42,35 +44,43 @@ export class ChecklistRequestDTO implements CreateChecklistProps {
   @IsEnum($Enums.WeddingRoleType, { each: true })
   responsibility: $Enums.WeddingRoleType[];
 
-  @ApiProperty({
+  @IsOptional()
+  @ApiPropertyOptional({
     type: [String],
     description: 'Wedding Role Type',
     enum: $Enums.WeddingRoleType,
     isArray: true,
+    nullable: true,
   })
-  @IsArray()
   @IsEnum($Enums.WeddingRoleType, { each: true })
   status: $Enums.WeddingRoleType[];
 
-  @ApiProperty({
+  @IsOptional()
+  @ApiPropertyOptional({
     type: [String],
     description: 'Wedding Role Type',
     enum: $Enums.WeddingRoleType,
     isArray: true,
+    nullable: true,
   })
-  @IsArray()
   @IsEnum($Enums.WeddingRoleType, { each: true })
   assigned_to: $Enums.WeddingRoleType[];
 
   @ApiPropertyOptional({ type: String, description: 'Notes', nullable: true })
   @IsOptional()
-  @IsString()
   notes: string;
 
   completed_at: Date;
   created_at: Date;
   updated_at: Date;
   deleted_at: Date;
+}
+
+export class BulkChecklistRequestdTO {
+  @ApiProperty({ type: [ChecklistRequestDTO] })
+  @Type(() => ChecklistRequestDTO)
+  @ValidateNested({ each: true })
+  payload: ChecklistRequestDTO[];
 }
 
 export class DeleteChecklistRequestDTO {

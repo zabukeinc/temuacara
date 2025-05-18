@@ -18,11 +18,13 @@ import { FindAllChecklistQuery } from '../../application/queries/find.all.checkl
 import { DeleteChecklistCommand } from '../../application/commands/delete-checklist.command.handler';
 import { ChecklistPaginatedResponse } from '../dtos/checklist.paginated.response';
 import {
+  BulkChecklistRequestdTO,
   ChecklistRequestDTO,
   DeleteChecklistRequestDTO,
 } from '../dtos/checklist.request.dto';
 import { FindAllChecklistRequestDTO } from '../dtos/get.all.checklist.request.dto';
 import { ChecklistEntity } from '../../domain/entities/checklist.entity';
+import { CreateBulkChecklistCommand } from '../../application/commands/create-bulk.checklist.command.handler';
 
 @Controller({
   version: '1',
@@ -36,12 +38,12 @@ export class ChecklistController {
 
   @Post()
   @ApiOperation({ summary: 'Create checklist' })
-  @ApiBody({ type: ChecklistRequestDTO })
-  async create(@Body() payload: ChecklistRequestDTO) {
+  @ApiBody({ type: BulkChecklistRequestdTO })
+  async bulkCreate(@Body() payload: BulkChecklistRequestdTO) {
     const result = await this.commandBus.execute<
-      CreateChecklistCommand,
+      CreateBulkChecklistCommand,
       ChecklistEntity
-    >(new CreateChecklistCommand(payload));
+    >(new CreateBulkChecklistCommand(payload));
 
     return new BaseResponse<typeof result>(
       result,
