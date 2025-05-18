@@ -131,4 +131,16 @@ export class InvitationRepositoryMysql implements InvitationRepository {
       return Promise.reject(err);
     }
   }
+
+  async bulkCreate(
+    payload: CreateInvitationProps[],
+  ): Promise<InvitationEntity[]> {
+    try {
+      const promises = payload.map((each) => this.baseCreate(each));
+
+      return await Promise.all(promises);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
 }

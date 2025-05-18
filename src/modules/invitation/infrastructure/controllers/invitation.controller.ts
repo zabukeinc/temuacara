@@ -11,7 +11,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiMovedPermanentlyResponse,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { CreateInvitationCommand } from '../../application/commands/create.invitation.command.handler';
 import { DeleteInvitationCommand } from '../../application/commands/delete-invitation.command.handler';
 import { UpdateInvitationCommand } from '../../application/commands/update.checklist.command.handler';
@@ -22,7 +28,9 @@ import { InvitationPaginatedResponse } from '../dtos/invitation.paginated.respon
 import {
   InvitationRequestDTO,
   DeleteInvitationRequestDTO,
+  BulkInvitationRequestDTO,
 } from '../dtos/invitation.request.dto';
+import { BulkCreateInvitationCommand } from '../../application/commands/create-bulk.invitation.command.handler';
 
 @Controller({
   version: '1',
@@ -35,13 +43,13 @@ export class InvitationController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create Invitation' })
-  @ApiBody({ type: InvitationRequestDTO })
-  async create(@Body() payload: InvitationRequestDTO) {
+  @ApiOperation({ summary: 'Create Invitation ' })
+  @ApiBody({ type: BulkInvitationRequestDTO })
+  async create(@Body() payload: BulkInvitationRequestDTO) {
     const result = await this.commandBus.execute<
-      CreateInvitationCommand,
+      BulkCreateInvitationCommand,
       InvitationEntity
-    >(new CreateInvitationCommand(payload));
+    >(new BulkCreateInvitationCommand(payload));
 
     return new BaseResponse<typeof result>(
       result,

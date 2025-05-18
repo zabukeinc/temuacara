@@ -8,6 +8,7 @@ import { DeleteInvitationCommandHandler } from './application/commands/delete-in
 import { UpdateInvitationCommandHandler } from './application/commands/update.checklist.command.handler';
 import { FindAllInvitationQueryHandler } from './application/queries/find.all.invitation.query';
 import { InvitationController } from './infrastructure/controllers/invitation.controller';
+import { BulkCreateInvitationCommandHandler } from './application/commands/create-bulk.invitation.command.handler';
 
 // modules
 const modules = [PrismaModule, CqrsModule];
@@ -19,6 +20,7 @@ const messageController = [];
 
 // Command Handler
 const commandHandler: Provider[] = [
+  BulkCreateInvitationCommandHandler,
   CreateInvitationCommandHandler,
   UpdateInvitationCommandHandler,
   DeleteInvitationCommandHandler,

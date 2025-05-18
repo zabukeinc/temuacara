@@ -129,3 +129,13 @@ export class DeleteInvitationRequestDTO {
   @IsArray()
   ids: string[];
 }
+
+export class BulkInvitationRequestDTO {
+  @ApiProperty({
+    type: [InvitationRequestDTO],
+    description: 'Array of invitation data',
+  })
+  @ValidateNested({ each: true })
+  @Type(() => InvitationRequestDTO)
+  payload: InvitationRequestDTO[];
+}

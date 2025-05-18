@@ -20,6 +20,7 @@ export interface InvitationRepository
     prop: InvitationProps,
     payload: UpdateInvitationProps,
   ): Promise<InvitationEntity>;
+  bulkCreate(payload: CreateInvitationProps[]): Promise<InvitationEntity[]>;
 }
 
 export interface InvitationProps {
