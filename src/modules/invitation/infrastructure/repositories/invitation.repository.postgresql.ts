@@ -74,7 +74,7 @@ export class InvitationRepositoryMysql implements InvitationRepository {
         where: { id: prop.updateProps.id },
       });
       if (!exist) {
-        throw new NotFoundException('Post marital not found');
+        throw new NotFoundException('Data not found');
       }
 
       const updated = await this.prismaService.invitation.update({

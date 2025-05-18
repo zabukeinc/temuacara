@@ -265,3 +265,63 @@ model InvitationWebsite {
 
   @@map("invitation_websites")
 }
+
+enum GiftTypeEnum {
+  BRIDE_PRICE
+  WEDDING_GIFT
+  GUEST_GIFT
+}
+
+enum GiftPlatformEnum {
+  OFFLINE_STORE
+  ONLINE_STORE
+  SOCIAL_MEDIA
+  OTHER
+}
+
+enum GiftCategoryEnum {
+  CASH
+  GOLD
+  JEWELRY
+  RING
+  MAKEUP
+  SKIN_CARE
+  BODY_CARE
+  HAIR_CARE
+  CLOTHES
+  ACCESSORIES
+  BOX
+  OTHER
+}
+
+enum GiftStatusEnum {
+  LISTED
+  UNLISTED
+  PREORDERED
+  CHECKOUTED
+  PENDING
+  SHIPPED
+  RECEIVED
+  COMPLETED
+  CANCELLED
+}
+
+model Gift {
+  id             String            @id @default(uuid()) @db.Uuid
+  item           String            @db.VarChar
+  type           GiftTypeEnum
+  category       GiftCategoryEnum
+  store          String            @db.VarChar
+  platform       GiftPlatformEnum
+  price          Int
+  quantity       Int
+  total_price    Int
+  responsibility WeddingRoleType[] @default([])
+  status         GiftStatusEnum
+  notes          String?           @db.Text
+  created_at     DateTime?         @default(now()) @db.Timestamptz
+  updated_at     DateTime?         @updatedAt @db.Timestamptz
+  deleted_at     DateTime?         @db.Timestamptz
+
+  @@map("gifts")
+}

@@ -40,7 +40,7 @@ export class ChecklistRepositoryMysql implements ChecklistRepository {
         where: { id: prop.updateProps.id },
       });
       if (!exist) {
-        throw new NotFoundException('Post marital not found');
+        throw new NotFoundException('Data not found');
       }
 
       const updated = await this.prismaService.checklist.update({
