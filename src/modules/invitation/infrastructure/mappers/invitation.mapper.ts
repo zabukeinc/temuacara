@@ -108,12 +108,14 @@ export class InvitationMapper {
   ): Prisma.InvitationFindManyArgs {
     const page = Number(props.page) || 1;
     const limit = Number(props.limit) || 25;
+    const sortBy = props.sort_by ?? 'created_at';
+    const sortDirection = props.sort_direction ?? 'desc';
 
     const aggregate: Prisma.InvitationFindManyArgs = {
       skip: (page - 1) * limit,
       take: limit,
       orderBy: {
-        created_at: 'desc',
+        [sortBy]: sortDirection,
       },
       include: {
         invitation_info: {
@@ -159,6 +161,10 @@ export class InvitationMapper {
           contains: props.from,
         },
       };
+    }
+
+    if (props.search) {
+      query.name = { contains: props.search, mode: 'insensitive' };
     }
 
     aggregate.where = query;

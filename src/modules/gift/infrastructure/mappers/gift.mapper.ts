@@ -19,12 +19,14 @@ export class GiftMapper {
   static toFindAll(props: FindAllGiftProps): Prisma.GiftFindManyArgs {
     const page = Number(props.page) || 1;
     const limit = Number(props.limit) || 25;
+    const sortBy = props.sort_by ?? 'created_at';
+    const sortDirection = props.sort_direction ?? 'desc';
 
     const aggregate: Prisma.GiftFindManyArgs = {
       skip: (page - 1) * limit,
       take: limit,
       orderBy: {
-        created_at: 'desc',
+        [sortBy]: sortDirection,
       },
     };
 
@@ -61,14 +63,10 @@ export class GiftMapper {
     }
 
     if (props.search) {
-      query.OR = [
-        {
-          item: {
-            contains: props.search,
-            mode: 'insensitive',
-          },
-        },
-      ];
+      query.item = {
+        contains: props.search,
+        mode: 'insensitive',
+      };
     }
 
     aggregate.where = query;

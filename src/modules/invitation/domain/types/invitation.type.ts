@@ -1,3 +1,4 @@
+import { BaseFindAllProps } from '@/modules/base/requests/base.find-all.request';
 import {
   Invitation,
   InvitationCategory,
@@ -5,6 +6,7 @@ import {
   InvitationStatusEnum,
   InvitationTypeEnum,
   InvitationWebsite,
+  Prisma,
   WebsiteFeatureEnum,
   WebsiteTrackEnum,
   WeddingRoleEnum,
@@ -19,9 +21,7 @@ export type InvitationRelationed = Invitation & {
   invitation_website?: InvitationWebsite;
 };
 
-export interface FindAllInvitationProps {
-  page: number;
-  limit: number;
+export interface FindAllInvitationProps extends BaseFindAllProps {
   inviter: string;
   status: string;
   type: string;
@@ -68,4 +68,3 @@ export interface InvitationRepositoryProp {
   updateProps?: { id: string };
   deleteProps?: { id: string };
 }
-

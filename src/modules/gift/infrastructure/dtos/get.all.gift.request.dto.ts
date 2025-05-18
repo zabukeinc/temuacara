@@ -1,16 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { FindAllGiftProps } from '../../domain/types/gift.type';
-import { $Enums } from '@prisma/client';
-import {
-  IsEnum,
-  IsOptional,
-  IsNumber,
-  IsString,
-  IsArray,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { $Enums, Prisma } from '@prisma/client';
+import { IsEnum, IsIn, IsOptional, IsString } from 'class-validator';
+import { BaseFindAllRequest } from '@/modules/base/requests/base.find-all.request';
 
-export class FindAllGiftRequestDTO implements FindAllGiftProps {
+export class FindAllGiftRequestDTO
+  extends BaseFindAllRequest
+  implements FindAllGiftProps
+{
   @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   @IsEnum($Enums.GiftTypeEnum)
@@ -41,16 +38,6 @@ export class FindAllGiftRequestDTO implements FindAllGiftProps {
   @IsEnum($Enums.GiftStatusEnum)
   status: $Enums.GiftStatusEnum;
 
-  @ApiProperty({ default: 1 })
-  @Type(() => Number)
-  @IsNumber()
-  page: number;
-
-  @ApiProperty({ default: 10 })
-  @Type(() => Number)
-  @IsNumber()
-  limit: number;
-
   @ApiPropertyOptional({ enum: $Enums.WeddingRoleType })
   @IsOptional()
   @IsEnum($Enums.WeddingRoleType)
@@ -58,6 +45,7 @@ export class FindAllGiftRequestDTO implements FindAllGiftProps {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsString()
-  search: string;
+  @IsEnum(Prisma.GiftScalarFieldEnum)
+  @IsIn(Object.values(Prisma.GiftScalarFieldEnum))
+  sort_by: string;
 }

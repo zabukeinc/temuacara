@@ -1,26 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { $Enums } from '@prisma/client';
-import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { $Enums, Prisma } from '@prisma/client';
+import { IsEnum, IsIn, IsOptional, IsString } from 'class-validator';
 import { FindAllInvitationProps } from '../../domain/types/invitation.type';
-import { Type } from 'class-transformer';
+import { BaseFindAllRequest } from '@/modules/base/requests/base.find-all.request';
 
-export class FindAllInvitationRequestDTO implements FindAllInvitationProps {
-  @ApiProperty({ description: 'Page number', minimum: 1, default: 1 })
-  @Type(() => Number)
-  @IsNumber()
-  @Min(1)
-  page: number;
-
-  @ApiProperty({
-    description: 'Number of items per page',
-    minimum: 1,
-    default: 25,
-  })
-  @Type(() => Number)
-  @IsNumber()
-  @Min(1)
-  limit: number;
-
+export class FindAllInvitationRequestDTO
+  extends BaseFindAllRequest
+  implements FindAllInvitationProps
+{
   @ApiPropertyOptional({
     description: 'Filter by inviter',
     enum: $Enums.WeddingRoleEnum,
@@ -67,4 +54,12 @@ export class FindAllInvitationRequestDTO implements FindAllInvitationProps {
   @IsString()
   @IsOptional()
   name: string;
+
+  @ApiProperty({
+    type: 'string',
+    enum: Object.values(Prisma.InvitationScalarFieldEnum),
+    default: 'asc',
+  })
+  @IsIn(Object.values(Prisma.InvitationScalarFieldEnum))
+  sort_by: string;
 }

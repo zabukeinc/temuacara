@@ -1,15 +1,13 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { FindAllChecklistProps } from '../../domain/types/checklist.type';
-import { $Enums } from '@prisma/client';
-import { IsEnum, IsOptional } from 'class-validator';
+import { $Enums, Prisma } from '@prisma/client';
+import { IsEnum, IsIn, IsOptional } from 'class-validator';
+import { BaseFindAllRequest } from '@/modules/base/requests/base.find-all.request';
 
-export class FindAllChecklistRequestDTO implements FindAllChecklistProps {
-  @ApiProperty()
-  page: number;
-
-  @ApiProperty()
-  limit: number;
-
+export class FindAllChecklistRequestDTO
+  extends BaseFindAllRequest
+  implements FindAllChecklistProps
+{
   @ApiPropertyOptional({ enum: $Enums.ChecklistType })
   @IsOptional()
   @IsEnum($Enums.ChecklistType)
@@ -36,5 +34,8 @@ export class FindAllChecklistRequestDTO implements FindAllChecklistProps {
   assigned_to: string;
 
   @ApiPropertyOptional()
-  search: string;
+  @IsOptional()
+  @IsEnum(Prisma.ChecklistScalarFieldEnum)
+  @IsIn(Object.values(Prisma.ChecklistScalarFieldEnum))
+  sort_by: string;
 }

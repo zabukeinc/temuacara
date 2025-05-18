@@ -1,4 +1,5 @@
-import { $Enums } from '@prisma/client';
+import { BaseFindAllProps } from '@/modules/base/requests/base.find-all.request';
+import { $Enums, Prisma } from '@prisma/client';
 
 export interface CreateGiftProps {
   item: string;
@@ -17,9 +18,7 @@ export interface CreateGiftProps {
   deleted_at: Date;
 }
 
-export interface FindAllGiftProps {
-  page: number;
-  limit: number;
+export interface FindAllGiftProps extends BaseFindAllProps {
   type: $Enums.GiftTypeEnum;
   category: $Enums.GiftCategoryEnum;
   store: string;

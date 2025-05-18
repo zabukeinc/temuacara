@@ -43,12 +43,14 @@ export class ChecklistMapper {
   static toFindAll(props: FindAllChecklistProps): Prisma.ChecklistFindManyArgs {
     const page = Number(props.page) || 1;
     const limit = Number(props.limit) || 25;
+    const sortBy = props.sort_by ?? 'created_at';
+    const sortDirection = props.sort_direction ?? 'desc';
 
     const aggregate: Prisma.ChecklistFindManyArgs = {
       skip: (page - 1) * limit,
       take: limit,
       orderBy: {
-        created_at: 'desc',
+        [sortBy]: sortDirection,
       },
     };
 

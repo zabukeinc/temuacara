@@ -1,4 +1,10 @@
-import { ChecklistType, SuggestionType, WeddingRoleType } from '@prisma/client';
+import { BaseFindAllProps } from '@/modules/base/requests/base.find-all.request';
+import {
+  ChecklistType,
+  Prisma,
+  SuggestionType,
+  WeddingRoleType,
+} from '@prisma/client';
 
 export interface CreateChecklistProps {
   id: string;
@@ -15,9 +21,7 @@ export interface CreateChecklistProps {
   deleted_at: Date;
 }
 
-export interface FindAllChecklistProps {
-  page: number;
-  limit: number;
+export interface FindAllChecklistProps extends BaseFindAllProps {
   type: string;
   suggestion: string;
   responsibility: string;
