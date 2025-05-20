@@ -78,6 +78,12 @@ export class ChecklistMapper {
       };
     }
 
+    if (props.assigneess) {
+      query.assigned_to = {
+        hasEvery: props.assigneess as WeddingRoleType[],
+      };
+    }
+
     aggregate.where = query;
     return aggregate;
   }
