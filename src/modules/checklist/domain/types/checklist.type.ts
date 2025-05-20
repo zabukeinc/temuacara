@@ -22,11 +22,11 @@ export interface CreateChecklistProps {
 }
 
 export interface FindAllChecklistProps extends BaseFindAllProps {
-  type: string;
-  suggestion: string;
-  responsibility: string;
-  status: string;
-  assigned_to: string;
+  types: string[];
+  suggestions: string[];
+  responsibilities: string[];
+  statuses: string[];
+  assigneess: string[];
   search: string;
 }
 

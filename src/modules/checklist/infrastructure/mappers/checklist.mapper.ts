@@ -56,9 +56,9 @@ export class ChecklistMapper {
 
     const query: Prisma.ChecklistWhereInput = {};
 
-    if (props.responsibility) {
+    if (props.responsibilities) {
       query.responsibility = {
-        hasSome: [props.responsibility as WeddingRoleType],
+        hasEvery: props.responsibilities as WeddingRoleType[],
       };
     }
 
@@ -66,15 +66,15 @@ export class ChecklistMapper {
       query.checklist = { contains: props.search, mode: 'insensitive' };
     }
 
-    if (props.suggestion) {
+    if (props.suggestions) {
       query.suggestion = {
-        in: [props.suggestion as SuggestionType],
+        in: props.suggestions as SuggestionType[],
       };
     }
 
-    if (props.type) {
+    if (props.types) {
       query.type = {
-        in: [props.type as ChecklistType],
+        in: props.types as ChecklistType[],
       };
     }
 

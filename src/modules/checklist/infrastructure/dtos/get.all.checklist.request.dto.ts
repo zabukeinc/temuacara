@@ -8,34 +8,48 @@ export class FindAllChecklistRequestDTO
   extends BaseFindAllRequest
   implements FindAllChecklistProps
 {
-  @ApiPropertyOptional({ enum: $Enums.ChecklistType })
+  @ApiPropertyOptional({
+    type: [String],
+    enum: $Enums.ChecklistType,
+    isArray: true,
+  })
   @IsOptional()
-  @IsEnum($Enums.ChecklistType)
-  type: string;
+  types: string[];
 
-  @ApiPropertyOptional({ enum: $Enums.SuggestionType })
+  @ApiPropertyOptional({
+    type: [String],
+    enum: $Enums.SuggestionType,
+    isArray: true,
+  })
   @IsOptional()
-  @IsEnum($Enums.SuggestionType)
-  suggestion: string;
+  suggestions: string[];
 
-  @ApiPropertyOptional({ enum: $Enums.WeddingRoleType })
+  @ApiPropertyOptional({
+    type: [String],
+    enum: $Enums.WeddingRoleType,
+    isArray: true,
+  })
   @IsOptional()
-  @IsEnum($Enums.WeddingRoleType)
-  responsibility: string;
+  responsibilities: string[];
 
-  @ApiPropertyOptional({ enum: $Enums.WeddingRoleType })
+  @ApiPropertyOptional({
+    type: [String],
+    enum: $Enums.WeddingRoleType,
+    isArray: true,
+  })
   @IsOptional()
-  @IsEnum($Enums.WeddingRoleType)
-  status: string;
+  statuses: string[];
 
-  @ApiPropertyOptional({ enum: $Enums.WeddingRoleType })
+  @ApiPropertyOptional({
+    type: [String],
+    enum: $Enums.WeddingRoleType,
+    isArray: true,
+  })
   @IsOptional()
-  @IsEnum($Enums.WeddingRoleType)
-  assigned_to: string;
+  assigneess: string[];
 
   @ApiPropertyOptional({ default: 'id' })
   @IsOptional()
-  @IsEnum(Prisma.ChecklistScalarFieldEnum)
   @IsIn(Object.values(Prisma.ChecklistScalarFieldEnum))
   sort_by: string;
 }
