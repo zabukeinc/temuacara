@@ -72,9 +72,9 @@ export class ChecklistMapper {
       };
     }
 
-    if (props.types) {
+    if (props.type) {
       query.type = {
-        in: props.types as ChecklistType[],
+        in: [props.type as ChecklistType],
       };
     }
 
