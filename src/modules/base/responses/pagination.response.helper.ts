@@ -41,8 +41,8 @@ export class PaginationHelper {
     // Create metadata object
     const metadata: BaseMetadataDTO = {
       page: currentPage,
-      limit: currentLimit,
-      count: datas.length,
+      limit: datas.length,
+      count,
       total,
       next,
       prev,
