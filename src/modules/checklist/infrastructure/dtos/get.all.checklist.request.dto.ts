@@ -11,10 +11,9 @@ export class FindAllChecklistRequestDTO
   @ApiPropertyOptional({
     type: 'string',
     enum: $Enums.ChecklistType,
-    isArray: true,
   })
   @IsOptional()
-  type: string
+  type: string;
 
   @ApiPropertyOptional({
     type: [String],

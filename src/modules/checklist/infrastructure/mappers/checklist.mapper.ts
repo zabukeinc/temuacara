@@ -58,7 +58,11 @@ export class ChecklistMapper {
 
     if (props.responsibilities) {
       query.responsibility = {
-        hasEvery: props.responsibilities as WeddingRoleType[],
+        equals: Array.isArray(props.responsibilities)
+          ? (props.responsibilities as
+              | WeddingRoleType[]
+              | Prisma.FieldRef<'Checklist', 'WeddingRoleType[]'>)
+          : [props.responsibilities],
       };
     }
 
