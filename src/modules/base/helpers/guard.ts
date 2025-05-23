@@ -52,4 +52,8 @@ export class Guard {
     }
     return false;
   }
+
+  static transformArray(value: unknown) {
+    return Array.isArray(value) ? value : [value];
+  }
 }

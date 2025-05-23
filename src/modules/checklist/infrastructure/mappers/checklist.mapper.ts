@@ -12,6 +12,7 @@ import {
 } from '../../domain/types/checklist.type';
 import { ChecklistPaginatedResponse } from '../dtos/checklist.paginated.response';
 import { ChecklistEntity } from '../../domain/entities/checklist.entity';
+import { Guard } from '@/modules/base/helpers/guard';
 
 export class ChecklistMapper {
   static toCreate(props: CreateChecklistProps): Prisma.ChecklistCreateInput {
@@ -71,8 +72,9 @@ export class ChecklistMapper {
     }
 
     if (props.suggestions) {
+      const arr = Guard.transformArray(props.suggestions);
       query.suggestion = {
-        in: props.suggestions as SuggestionType[],
+        in: [...arr, ...arr.reverse()],
       };
     }
 
@@ -85,6 +87,14 @@ export class ChecklistMapper {
     if (props.assigneess) {
       query.assigned_to = {
         hasEvery: props.assigneess as WeddingRoleType[],
+      };
+    }
+
+    if (props.statuses) {
+      const arr = Guard.transformArray(props.statuses);
+
+      query.status = {
+        hasEvery: [...arr, ...arr.reverse()],
       };
     }
 
